@@ -39,12 +39,12 @@ adapter:
     url: "https://restcountries.com"
 datasource:
   r2dbc:
-    host: "localhost"
+    host: "mysql"
     port: 3306
     username: "root"
     password: "root"
 msgbroker:
-  host: "localhost"
+  host: "rabbitmq"
   password: "guest"
   username: "guest"
 resilience4j:
