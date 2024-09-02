@@ -33,7 +33,7 @@ adapter:
   restconsumer-rates:
     timeout: 5000
     url: "https://openexchangerates.org"
-    app_id: "2f699d0496654411abcf3410b81f9038"
+    app-id: "2f699d0496654411abcf3410b81f9038"
   restconsumer-timezone:
     timeout: 5000
     url: "https://restcountries.com"
@@ -50,24 +50,13 @@ msgbroker:
 resilience4j:
   circuitbreaker:
     instances:
-      testGet:
+      restConsumer:
         registerHealthIndicator: true
-        failureRateThreshold: 50
-        slowCallRateThreshold: 50
-        slowCallDurationThreshold: "2s"
         permittedNumberOfCallsInHalfOpenState: 3
         slidingWindowSize: 10
         minimumNumberOfCalls: 10
         waitDurationInOpenState: "10s"
-      testPost:
-        registerHealthIndicator: true
         failureRateThreshold: 50
-        slowCallRateThreshold: 50
-        slowCallDurationThreshold: "2s"
-        permittedNumberOfCallsInHalfOpenState: 3
-        slidingWindowSize: 10
-        minimumNumberOfCalls: 10
-        waitDurationInOpenState: "10s"
 logging:
   level:
     org:
