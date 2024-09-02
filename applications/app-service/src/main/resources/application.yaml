@@ -1,0 +1,65 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "GeolocalizacionIps"
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: "/h2"
+  profiles:
+    include: null
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
+cors:
+  allowed-origins: "http://localhost:4200,http://localhost:8080"
+adapter:
+  restconsumer-ipapi:
+    timeout: 5000
+    url: "http://api.ipapi.com"
+    access-key: "a293e059a7f8b6ce3461fa1e3f3c0f46"
+  restconsumer-rates:
+    timeout: 5000
+    url: "https://openexchangerates.org"
+    app_id: "2f699d0496654411abcf3410b81f9038"
+  restconsumer-timezone:
+    timeout: 5000
+    url: "https://restcountries.com"
+resilience4j:
+  circuitbreaker:
+    instances:
+      testGet:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: "2s"
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        waitDurationInOpenState: "10s"
+      testPost:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: "2s"
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        waitDurationInOpenState: "10s"
+logging:
+  level:
+    org:
+      springframework:
+        cache: TRACE
