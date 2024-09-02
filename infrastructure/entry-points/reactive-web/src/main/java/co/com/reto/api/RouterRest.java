@@ -13,10 +13,8 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 public class RouterRest {
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(Handler handler, ReporteHandler reporteHandler) {
-        return route(GET("/api/usecase/path/{ip}"), handler::listenGETUseCase)
-                .andRoute(GET("/api/usecase/otherpath"), handler::listenPOSTUseCase)
-                .and(route(GET("/api/otherusercase/path"), handler::listenGETOtherUseCase))
-                .andRoute(GET("/api/reporte"), request -> reporteHandler.reporteDistancia());
+    public RouterFunction<ServerResponse> routerFunction(UbicacionIpHandler ubicacionIpHandler, ReporteHandler reporteHandler) {
+        return route(GET("/api/v1/ubicacion/{ip}"), ubicacionIpHandler::obtenerUbicacionIp)
+                .andRoute(GET("/api/v1/reporte"), request -> reporteHandler.reporteDistancia());
     }
 }

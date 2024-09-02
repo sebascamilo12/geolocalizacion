@@ -1,6 +1,5 @@
 package co.com.reto.r2dbcrepository.moneda;
 
-
 import co.com.reto.model.moneda.Moneda;
 import co.com.reto.model.moneda.gateways.MonedaRepository;
 import co.com.reto.r2dbcrepository.helper.ReactiveAdapterOperations;
@@ -19,13 +18,7 @@ public class MyReactiveRepositoryMonedaAdapter extends ReactiveAdapterOperations
     private static final Logger logger = LoggerFactory.getLogger(MyReactiveRepositoryMonedaAdapter.class);
 
     public MyReactiveRepositoryMonedaAdapter(MyReactiveMonedaRepository repository, ObjectMapper mapper) {
-        /**
-         *  Could be use mapper.mapBuilder if your domain model implement builder pattern
-         *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
-         *  Or using mapper.map with the class of the object model
-         */
         super(repository, mapper, d -> mapper.map(d, Moneda.class));
-
     }
 
     @Override
@@ -34,7 +27,7 @@ public class MyReactiveRepositoryMonedaAdapter extends ReactiveAdapterOperations
         logger.info("Consumiendo BD obtener moneda");
         return repository.findByCodigoIso(codigoIso)
                 .map(monedaData -> {
-                    logger.info("Consulta obtenia");
+                    logger.info("Consulta finalizada");
                     return mapper.map(monedaData, Moneda.class);
                 });
     }

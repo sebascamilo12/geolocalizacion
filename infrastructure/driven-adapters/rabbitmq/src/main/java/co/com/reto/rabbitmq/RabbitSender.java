@@ -12,14 +12,13 @@ import org.springframework.util.SerializationUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;
-import reactor.rabbitmq.QueueSpecification;
 import reactor.rabbitmq.Sender;
 
 @Service
 public class RabbitSender {
 
     private final Sender sender;
-    private InvocacionMapper invocacionMapper;
+    private final InvocacionMapper invocacionMapper;
     private static final String queue = "mensajes";
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitSender.class);

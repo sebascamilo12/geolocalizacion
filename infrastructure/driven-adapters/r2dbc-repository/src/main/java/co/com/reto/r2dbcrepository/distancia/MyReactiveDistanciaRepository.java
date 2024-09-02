@@ -7,8 +7,6 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
-// TODO: This file is just an example, you should delete or modify it
 public interface MyReactiveDistanciaRepository extends ReactiveCrudRepository<DistanciaData, String>, ReactiveQueryByExampleExecutor<DistanciaData> {
 
     @Query("SELECT * FROM geolocalizacion.distancia " +
