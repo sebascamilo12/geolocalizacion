@@ -1,47 +1,43 @@
-# Proyecto Base Implementando Clean Architecture
+# Proyecto GeolocalizaciÃ³n
 
-## Antes de Iniciar
+En el proyecto implemente Clean Architecture, consumi APis pÃºblicas, implemente BD MySql y cola de mensajeria RabbitMQ. 
 
-Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
+APIs pÃºblicas:
 
-Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
+GeolocalizaciÃ³n de IPs: https://ip2country.info/
 
-# Arquitectura
+InformaciÃ³n de paises: https://restcountries.com/
 
-![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)
+InformaciÃ³n sobre monedas: https://openexchangerates.org
 
-## Domain
+Se creo un archivo dockerFile y docker-compose para ejecutar la aplicaciÃ³n en un contenedor Docker realizando los siguientes pasos:
 
-Es el módulo más interno de la arquitectura, pertenece a la capa del dominio y encapsula la lógica y reglas del negocio mediante modelos y entidades del dominio.
+1. Abrir una consola de comandos e ir a la ruta del proyecto.
+2. Ejecutar el siguiente comando "docker build -t mi-aplicacion ." sin las comillas, este comando construye la imagen Docker.
+3. Ejecutar el siguiente comando "docker-compose up --build" sin las comillas, este comando ejecuta multiples servicios basado en el archivo docker-compose.yml. Para este proyecto necesito tener aparte de la aplicacion una BD Mysql y RabbitMQ, lo cual estan definidos en el archivo compose.
 
-## Usecases
+Despues de ejecutar los comandos la aplicaciÃ³n ya quedara desplegada.
 
-Este módulo gradle perteneciente a la capa del dominio, implementa los casos de uso del sistema, define lógica de aplicación y reacciona a las invocaciones desde el módulo de entry points, orquestando los flujos hacia el módulo de entities.
+## Consumir servicios
 
-## Infrastructure
+Se crearon dos endPoints para cumplir con los requerimientos establecidos
 
-### Helpers
+1. Primer servicio es para obtener la informaciÃ³n completa de una direcciÃ³n ip.
 
-En el apartado de helpers tendremos utilidades generales para los Driven Adapters y Entry Points.
+Servicio GET
 
-Estas utilidades no están arraigadas a objetos concretos, se realiza el uso de generics para modelar comportamientos
-genéricos de los diferentes objetos de persistencia que puedan existir, este tipo de implementaciones se realizan
-basadas en el patrón de diseño [Unit of Work y Repository](https://medium.com/@krzychukosobudzki/repository-design-pattern-bc490b256006)
+Copiar el curl para consumir el servicio: curl --location 'http://localhost:8080/api/v1/ubicacion/161.185.160.93'
 
-Estas clases no puede existir solas y debe heredarse su compartimiento en los **Driven Adapters**
+Ejemplo de respuesta
 
-### Driven Adapters
+![img.png](img.png)
 
-Los driven adapter representan implementaciones externas a nuestro sistema, como lo son conexiones a servicios rest,
-soap, bases de datos, lectura de archivos planos, y en concreto cualquier origen y fuente de datos con la que debamos
-interactuar.
+2. Segundo servicio es para obtener distancÃ­a mÃ¡s cercana, distancÃ­a mÃ¡s lejana y promedio de todas las ejecuciones.
 
-### Entry Points
+Servicio GET
 
-Los entry points representan los puntos de entrada de la aplicación o el inicio de los flujos de negocio.
+Copiar el curl para consumir el servicio: curl --location 'http://localhost:8080/api/v1/reporte'
 
-## Application
+Ejemplo de respuesta
 
-Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
-
-**Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
+![img_1.png](img_1.png)
