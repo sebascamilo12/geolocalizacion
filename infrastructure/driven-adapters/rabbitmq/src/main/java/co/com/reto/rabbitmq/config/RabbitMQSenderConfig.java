@@ -4,6 +4,7 @@ package co.com.reto.rabbitmq.config;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
@@ -15,13 +16,19 @@ import reactor.rabbitmq.SenderOptions;
 @Configuration
 public class RabbitMQSenderConfig {
 
+    @Value("${msgbroker.host}")
+    private String host;
+    @Value("${msgbroker.username}")
+    private String username;
+    @Value("${msgbroker.password}")
+    private String password;
     @Bean(name = "senderConnectionMono")
     Mono<Connection> senderConnectionMono() {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.useNio();
-        connectionFactory.setHost("rabbitmq");
-        connectionFactory.setUsername("guest");
-        connectionFactory.setPassword("guest");
+        connectionFactory.setHost(host);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
         return Mono.fromCallable(() -> connectionFactory.newConnection("sender-sms-rabbitmq")).cache();
     }
 

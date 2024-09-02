@@ -5,6 +5,7 @@ import io.asyncer.r2dbc.mysql.MySqlConnectionFactory;
 import io.r2dbc.pool.ConnectionPool;
 import io.r2dbc.pool.ConnectionPoolConfiguration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,20 +13,28 @@ import java.time.Duration;
 
 @Configuration
 public class MySQLConnectionPool {
-    // TODO: change pool connection properties based on your resources.
+
     public static final int INITIAL_SIZE = 12;
     public static final int MAX_SIZE = 15;
     public static final int MAX_IDLE_TIME = 30;
+	@Value("${datasource.r2dbc.host}")
+	private String host;
+	@Value("${datasource.r2dbc.port}")
+	private Integer port;
+	@Value("${datasource.r2dbc.username}")
+	private String userName;
+	@Value("${datasource.r2dbc.password}")
+	private String password;
 
 	@Bean
 	public ConnectionPool getConnectionConfig() {
-        // TODO: change these properties for yours
+
 		MysqlConnectionProperties pgProperties = new MysqlConnectionProperties();
 		pgProperties.setDatabase("geolocalizacion");
-		pgProperties.setHost("mysql");
-		pgProperties.setPort(3306);
-		pgProperties.setUsername("root");
-		pgProperties.setPassword("root");
+		pgProperties.setHost(host);
+		pgProperties.setPort(port);
+		pgProperties.setUsername(userName);
+		pgProperties.setPassword(password);
 
 		return buildConnectionConfiguration(pgProperties);
 	}

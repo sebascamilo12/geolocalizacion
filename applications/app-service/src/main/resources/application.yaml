@@ -37,6 +37,16 @@ adapter:
   restconsumer-timezone:
     timeout: 5000
     url: "https://restcountries.com"
+datasource:
+  r2dbc:
+    host: "localhost"
+    port: 3306
+    username: "root"
+    password: "root"
+msgbroker:
+  host: "localhost"
+  password: "guest"
+  username: "guest"
 resilience4j:
   circuitbreaker:
     instances:
